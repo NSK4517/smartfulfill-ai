@@ -361,7 +361,7 @@ async function seedInternal(ctx: MutationCtx, now: number) {
   for (const [num, cname, items, deadlineHrs, createdMinAgo, status, extra] of ORDERS) {
     const createdAt = now - createdMinAgo * MIN;
     const deadline = now + deadlineHrs * HOUR;
-    const invStatus = (extra?.invStatus ?? "Available") as string;
+    const invStatus: InvStatus = extra?.invStatus ?? "Available";
     const value = items.reduce((s, [sku, qty]) => s + PRODUCTS.find((p) => p.sku === sku)!.price * qty, 0);
     const tier = CUSTOMERS.find((c) => c[0] === cname)![1];
     const prio = calculateOrderPriority({ customerTier: tier, deadline, createdAt, value, inventoryStatus: invStatus, now });
